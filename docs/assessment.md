@@ -42,3 +42,4 @@ Q. Imagine you’re working with a few collaborators on an analysis. Come up wit
 
 Q. What are three ways GitHub features can promote open science practices?
 
+--
