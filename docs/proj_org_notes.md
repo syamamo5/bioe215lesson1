@@ -5,8 +5,6 @@
 
 <- ...assignment operator     "Alt" + "-"
 
-# ...comment
-
 <- c() ...Vector, composed by series of values, which can be either number or characters
 
 _________________________________________________________
