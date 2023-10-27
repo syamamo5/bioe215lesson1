@@ -117,9 +117,14 @@ surveys %>%
   group_by(species_id, sex) %>% 
   summarize(mean_weight = mean(weight, na.rm = TRUE))
 
-### Note###______________________________________________
-Notice the warning message: our output is still grouped by species_id. By default, summarize() only removes one level of grouping. This usually leads to unexpected results. As the warning suggests, use .groups to drop all groups.
-_________________________________________________________
+### Note###___________________________________________________________
+
+Notice the warning message: our output is still grouped by species_id.
+By default, summarize() only removes one level of grouping.
+This usually leads to unexpected results.
+As the warning suggests, use .groups to drop all groups.
+
+______________________________________________________________________
 
 so,
 
