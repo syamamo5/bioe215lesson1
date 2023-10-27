@@ -1,4 +1,4 @@
-< Project Organization notes >
+## < Project Organization notes >
 ________________________________________________________________
 
 # 2023/10/15 compthinking1
@@ -13,7 +13,7 @@ length() ... vectorの個数
 ```
 ________________________________________________________________
 
-2023/10/16 working with data
+# 2023/10/16 working with data
 
 ```
 For every new project,
