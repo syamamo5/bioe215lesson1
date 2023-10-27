@@ -21,22 +21,263 @@ For every new project,
   2. usethis::git_branch_rename()
   3. usethis::use_github()
 on console to connect to GitHub
-
 ```
+
 ```
 < Data transformations with dplyr >
 
 library(tidyverse)
 
+_________________________________________________________________
+
 1. selecting columns and filtering rows
 
 # keeping columns
+
 select(surveys, plot_id, species_id, weight)
 select(surveys, plot_id, species_id, weight_g = weight)
 
 
+# removing columns
+
+select(surveys, -record_id, -species_id)
 
 
+# keeping rows based on conditions
 
+filter(surveys, year == 1995)
+filter(surveys, year == 1995, plot_id == 7)
+filter(surveys, month == 2 | day == 20)
+```
+```
+_________________________________________________________________
+
+2. Pipes %>%  (Shift + Ctrl + M)
+
+surveys_psw <- surveys %>% 
+  filter(year == 1995) %>% 
+  select(plot_id, species_id, weight)
+
+
+this is same as:
+
+select(filter(surveys, year == 1995), plot_id, species_id, weight)
+
+surveys_1995 <- filter(surveys, year == 1995)
+surveys_psw <- select(surveys_1995, plot_id, species_id, weight)
+```
+```
+_________________________________________________________________
+
+3. Add/change columns with "mutate"
+
+# Add a column
+
+surveys %>% 
+  mutate(weight_kg = weight / 1000)
+
+
+# Add multiple columns based on each other
+
+surveys %>% 
+  mutate(weight_kg = weight / 1000,
+         weight_lb = weight_kg * 2.2)
+
+
+# So many NAs! Add a filter before mutate.
+
+surveys %>% 
+  filter(!is.na(weight)) %>% 
+  mutate(weight_kg = weight / 1000,
+         weight_lb = weight_kg * 2.2)
+
+
+# Convert year, month, and day to dates
+
+surveys %>% 
+  select(year, month, day) %>% 
+  mutate(date_str = paste(year, month, day, sep = "-"),
+         date = as.Date(date_str))
+```
+```
+_________________________________________________________________
+
+4. Split-apply-combine with "summarize"
+
+#What’s the average weight of the observed animals by sex?
+
+surveys %>% 
+  group_by(sex) %>% 
+  summarize(mean_weight = mean(weight, na.rm = TRUE))
+
+
+#Group by multiple columns, e.g. sex and species.
+
+surveys %>% 
+  group_by(species_id, sex) %>% 
+  summarize(mean_weight = mean(weight, na.rm = TRUE))
+
+### Note###______________________________________________
+Notice the warning message: our output is still grouped by species_id. By default, summarize() only removes one level of grouping. This usually leads to unexpected results. As the warning suggests, use .groups to drop all groups.
+_________________________________________________________
+
+so,
+
+surveys %>% 
+  group_by(species_id, sex) %>% 
+  summarize(mean_weight = mean(weight, na.rm = TRUE),
+            .groups = "drop")
+
+
+# NaN is the result of calling mean() on an empty vector. Let’s remove NAs before summarizing.
+
+surveys %>% 
+  filter(!is.na(weight)) %>% 
+  group_by(species_id, sex) %>% 
+  summarize(mean_weight = mean(weight),
+            .groups = "drop")
+
+
+# Can also generate multiple summaries per group.
+
+surveys %>% 
+  filter(!is.na(weight)) %>% 
+  group_by(species_id, sex) %>% 
+  summarize(mean_weight = mean(weight),
+            min_weight = min(weight),
+            .groups = "drop")
+```
+```
+_________________________________________________________________
+
+5. Sort with "arrange"
+
+surveys %>% 
+  filter(!is.na(weight)) %>% 
+  group_by(species_id, sex) %>% 
+  summarize(mean_weight = mean(weight),
+            min_weight = min(weight),
+            .groups = "drop") %>% 
+  arrange(desc(mean_weight))
+```
+```
+_________________________________________________________________
+
+6. Joining data
+
+Joining columns: left_join(), inner_join()
+
+# Say we have more information about some of our taxa.
+
+count(surveys, taxa)
+taxa_iucn <- data.frame(
+  taxa = c("Bird", "Rabbit", "Rodent"),
+  iucn = c("NT", "LC", "LC")
+)
+taxa_iucn
+
+
+# Left join surveys with taxa info by their shared column (the “key”)
+
+surveys_iucn <- left_join(surveys, taxa_iucn, by = "taxa")
+head(surveys_iucn)
+```
+```
+_________________________________________________________________
+
+Some Utility functions!
+
+# count() is a shortcut to getting the size of groups
+
+surveys %>% 
+  count(sex, species) %>% 
+  arrange(species, desc(n))
+
+
+# drop_na() is a shortcut for removing rows with missing values
+
+surveys %>% 
+  drop_na(weight, sex) %>% 
+  group_by(species_id, sex) %>% 
+  summarize(mean_weight = mean(weight),
+            min_weight = min(weight),
+            .groups = "drop") %>% 
+  arrange(desc(mean_weight))
+```
+________________________________________________________________
+
+# 2023/10/23 compthinking2
+
+Functions are “canned scripts” that automate more complicated sets of commands including operations assignments
 
 ```
+mean <- function(x) {
+  result <- sum(x) / length(x)
+  return(result)
+}
+
+
+Function name = mean
+
+Keyword function = function
+
+Parameters = x
+
+Body = Everything in the {}
+
+
+
+first_last_chr <- function(s) {
+  first_chr <- substr(s, 1, 1)
+  last_chr <- substr(s, nchar(s), nchar(s))
+  result <- paste(first_chr, last_chr, sep = "")
+  return(result)
+}
+text <- "Amazing!"
+first_last_chr(text)
+
+
+Function name = first_last_chr
+
+Keyword function = function
+
+Parameters = s
+
+Body = Everything in the {}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
