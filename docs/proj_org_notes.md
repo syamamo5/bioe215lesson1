@@ -23,3 +23,20 @@ For every new project,
 on console to connect to GitHub
 
 ```
+```
+< Data transformations with dplyr >
+
+library(tidyverse)
+
+1. selecting columns and filtering rows
+
+# keeping columns
+select(surveys, plot_id, species_id, weight)
+select(surveys, plot_id, species_id, weight_g = weight)
+
+
+
+
+
+
+```
