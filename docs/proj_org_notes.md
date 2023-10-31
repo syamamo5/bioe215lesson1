@@ -1,4 +1,47 @@
 ## < Project Organization notes >
+
+________________________________________________________________
+
+# R operaters
+
+```
+< Arithmetic Operators >
+
++     Addition
+-	    Subtraction
+* 	  Multiplication
+/	    Division
+^	    Exponent
+%%  	Modulus (Remainder from division)
+%/%	  Integer Division
+```
+```
+< Comparison Operators >
+
+==	  Equal	x == y	
+!=	  Not equal	x != y	
+>	    Greater than	x > y	
+<	    Less than	x < y	
+>=	  Greater than or equal to	x >= y	
+<=	  Less than or equal to	x <= y
+```
+```
+< Logical Operators >
+
+&   	Element-wise Logical AND operator. It returns TRUE if both elements are TRUE
+&&  	Logical AND operator - Returns TRUE if both statements are TRUE
+|   	Elementwise- Logical OR operator. It returns TRUE if one of the statement is TRUE
+||  	Logical OR operator. It returns TRUE if one of the statement is TRUE.
+!	    Logical NOT - returns FALSE if statement is TRUE
+```
+```
+< Miscellaneous Operators >
+
+:	      Creates a series of numbers in a sequence  	x <- 1:10
+%in%	  Find out if an element belongs to a vector 	x %in% y
+%*%	    Matrix Multiplication	x <- Matrix1 %*% Matrix2
+
+```
 ________________________________________________________________
 
 # 2023/10/15 compthinking1
@@ -6,9 +49,51 @@ ________________________________________________________________
 ```
 <- ...assignment operator     "Alt" + "-"
 
-<- c() ...Vector, composed by series of values, which can be either number or characters
 
-length() ... vectorの個数
+・Atomic vectors
+<- c() ...composed by series of values, which can be either number or characters, but they all have to be the same types (character, double, integer, logical)
+
+
+・list
+# can be different types
+# 貨物列車のようなもの、コンテナの中身は別々でも可
+
+
+
+< Indexing >
+
+x <- c(a = 1, b = 2, c = 5)
+
+3 ways to index atomic vectors
+
+1. position
+x[1]
+x[1:2]
+x[c(1,3)]
+
+2. by name
+x["a"]
+x[c("a", "c")]
+
+3. by logic
+filenames <- c("bob", "bob", "springer", "bailey", "bailey")
+breed <- c("pittie", "pittie", "shepherd", "lab", "lab")
+filenames == "bob"
+filenames[filenames == "bob"]
+breed[filenames == "bob"]
+
+
+
+< list subsetting>
+
+l <- list(a = 1:3,
+          b = 4:6)
+
+mean(l[1])
+
+# subsetting lists with $ and [[]]  　"の"と同じ
+l$a
+l[["a"]]
 
 ```
 ________________________________________________________________
@@ -250,9 +335,38 @@ Parameters = s
 
 Body = Everything in the {}
 ```
+________________________________________________________________
 
+# 2023/10/30 Troubleshooting
 
+```
+< Debugging >
 
+# 1. replex
+
+# minimum reproducible example, or a reprex for short. Distilling a bug into the smallest amount of data and code that produces the bug is the single most valuable skill for debugging!
+
+  # Key to minimizing code
+    1. Small and simple inputs
+    2. No extraneous packages
+    3. No unnecessary function calls
+```
+```
+install.packages("reprex")
+library(reprex)
+
+#{}...code chunk
+
+reprex({library(palmerpenguins)
+  body_condition <- resid(lm(body_mass_g ~ flipper_length_mm, penguins))
+  summary(body_condition)
+})
+```
+```
+# 2. browser function
+
+use "blowser()" to stop in the middle of an execution. 
+```
 
 
 
