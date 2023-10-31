@@ -8,38 +8,38 @@ ________________________________________________________________
 < Arithmetic Operators >
 
 +     Addition
--	    Subtraction
-* 	  Multiplication
-/	    Division
-^	    Exponent
-%%  	Modulus (Remainder from division)
-%/%	  Integer Division
+-     Subtraction
+*     Multiplication
+/     Division
+^     Exponent
+%%      Modulus (Remainder from division)
+%/%     Integer Division
 ```
 ```
 < Comparison Operators >
 
-==	  Equal	x == y	
-!=	  Not equal	x != y	
->	    Greater than	x > y	
-<	    Less than	x < y	
->=	  Greater than or equal to	x >= y	
-<=	  Less than or equal to	x <= y
+==      Equal	x == y	
+!=      Not equal	x != y	
+>     Greater than	x > y	
+<     Less than	x < y	
+>=      Greater than or equal to	x >= y	
+<=      Less than or equal to	x <= y
 ```
 ```
 < Logical Operators >
 
-&   	Element-wise Logical AND operator. It returns TRUE if both elements are TRUE
-&&  	Logical AND operator - Returns TRUE if both statements are TRUE
-|   	Elementwise- Logical OR operator. It returns TRUE if one of the statement is TRUE
-||  	Logical OR operator. It returns TRUE if one of the statement is TRUE.
-!	    Logical NOT - returns FALSE if statement is TRUE
+&     Element-wise Logical AND operator. It returns TRUE if both elements are TRUE
+&&      Logical AND operator - Returns TRUE if both statements are TRUE
+|     Elementwise- Logical OR operator. It returns TRUE if one of the statement is TRUE
+||      Logical OR operator. It returns TRUE if one of the statement is TRUE.
+!     Logical NOT - returns FALSE if statement is TRUE
 ```
 ```
 < Miscellaneous Operators >
 
-:	      Creates a series of numbers in a sequence  	x <- 1:10
-%in%	  Find out if an element belongs to a vector 	x %in% y
-%*%	    Matrix Multiplication	x <- Matrix1 %*% Matrix2
+:     Creates a series of numbers in a sequence  	x <- 1:10
+%in%      Find out if an element belongs to a vector 	x %in% y
+%*%     Matrix Multiplication	x <- Matrix1 %*% Matrix2
 
 ```
 ________________________________________________________________
