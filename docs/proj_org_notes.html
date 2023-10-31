@@ -352,23 +352,321 @@ display: none;
 </div>
 
 
-<p>##&lt; Project Organization notes &gt;
-________________________________________________________________ #
-2023/10/15 compthinking1</p>
-<pre><code>&lt;- ...assignment operator     &quot;Alt&quot; + &quot;-&quot;
+<div id="project-organization-notes" class="section level2">
+<h2>&lt; Project Organization notes &gt;</h2>
+<hr />
+</div>
+<div id="r-operaters" class="section level1">
+<h1>R operaters</h1>
+<pre><code>&lt; Assignment operator &gt;
+&lt;-    &quot;Alt&quot; + &quot;-&quot;</code></pre>
+<pre><code>&lt; Arithmetic Operators &gt;
 
-&lt;- c() ...Vector, composed by series of values, which can be either number or characters
++     Addition
+-     Subtraction
+*     Multiplication
+/     Division
+^     Exponent
+%%    Modulus (Remainder from division)
+%/%   Integer Division</code></pre>
+<pre><code>&lt; Comparison Operators &gt;
 
-length() ... vectorの個数
+==    Equal x == y  
+!=    Not equal x != y  
+&gt;     Greater than  x &gt; y   
+&lt;     Less than x &lt; y   
+&gt;=    Greater than or equal to  x &gt;= y  
+&lt;=    Less than or equal to x &lt;= y</code></pre>
+<pre><code>&lt; Logical Operators &gt;
+
+&amp;     Element-wise Logical AND operator. It returns TRUE if both elements are TRUE
+&amp;&amp;    Logical AND operator - Returns TRUE if both statements are TRUE
+|     Elementwise- Logical OR operator. It returns TRUE if one of the statement is TRUE
+||    Logical OR operator. It returns TRUE if one of the statement is TRUE.
+!     Logical NOT - returns FALSE if statement is TRUE</code></pre>
+<pre><code>&lt; Miscellaneous Operators &gt;
+
+:       Creates a series of numbers in a sequence   x &lt;- 1:10
+%in%    Find out if an element belongs to a vector  x %in% y
+%*%     Matrix Multiplication   x &lt;- Matrix1 %*% Matrix2
 </code></pre>
 <hr />
-<p>#2023/10/16 working with data</p>
+</div>
+<div id="compthinking1" class="section level1">
+<h1>2023/10/15 compthinking1</h1>
+<pre><code>&lt; Atomic vectors &gt;
+&lt;- c() ...composed by series of values, which can be either number or characters,
+          but they all have to be the same types (character, double, integer, logical)</code></pre>
+<pre><code>&lt; list &gt;
+list()
+can be different types
+貨物列車のようなもの、コンテナの中身は別々でも可</code></pre>
+<pre><code>&lt; Indexing &gt;
+
+x &lt;- c(a = 1, b = 2, c = 5)
+
+3 ways to index atomic vectors
+
+1. position
+x[1]
+x[1:2]
+x[c(1,3)]
+
+2. by name
+x[&quot;a&quot;]
+x[c(&quot;a&quot;, &quot;c&quot;)]
+
+3. by logic
+filenames &lt;- c(&quot;bob&quot;, &quot;bob&quot;, &quot;springer&quot;, &quot;bailey&quot;, &quot;bailey&quot;)
+breed &lt;- c(&quot;pittie&quot;, &quot;pittie&quot;, &quot;shepherd&quot;, &quot;lab&quot;, &quot;lab&quot;)
+filenames == &quot;bob&quot;
+filenames[filenames == &quot;bob&quot;]
+breed[filenames == &quot;bob&quot;]</code></pre>
+<pre><code>&lt; list subsetting&gt;
+
+l &lt;- list(a = 1:3,
+          b = 4:6)
+
+mean(l[1])
+
+# subsetting lists with $ and [[]]  　&quot;の&quot;と同じ
+l$a
+l[[&quot;a&quot;]]
+</code></pre>
+<hr />
+</div>
+<div id="working-with-data" class="section level1">
+<h1>2023/10/16 working with data</h1>
 <pre><code>For every new project,
   1. usethis::use_git()
   2. usethis::git_branch_rename()
   3. usethis::use_github()
-on console to connect to GitHub
-</code></pre>
+on console to connect to GitHub</code></pre>
+<pre><code>&lt; Data transformations with dplyr &gt;
+
+library(tidyverse)</code></pre>
+<pre><code>1. selecting columns and filtering rows
+
+# keeping columns
+
+select(surveys, plot_id, species_id, weight)
+select(surveys, plot_id, species_id, weight_g = weight)
+
+
+# removing columns
+
+select(surveys, -record_id, -species_id)
+
+
+# keeping rows based on conditions
+
+filter(surveys, year == 1995)
+filter(surveys, year == 1995, plot_id == 7)
+filter(surveys, month == 2 | day == 20)</code></pre>
+<pre><code>2. Pipes %&gt;%  (Shift + Ctrl + M)
+
+surveys_psw &lt;- surveys %&gt;% 
+  filter(year == 1995) %&gt;% 
+  select(plot_id, species_id, weight)
+
+
+this is same as:
+
+select(filter(surveys, year == 1995), plot_id, species_id, weight)
+
+surveys_1995 &lt;- filter(surveys, year == 1995)
+surveys_psw &lt;- select(surveys_1995, plot_id, species_id, weight)</code></pre>
+<pre><code>3. Add/change columns with &quot;mutate&quot;
+
+# Add a column
+
+surveys %&gt;% 
+  mutate(weight_kg = weight / 1000)
+
+
+# Add multiple columns based on each other
+
+surveys %&gt;% 
+  mutate(weight_kg = weight / 1000,
+         weight_lb = weight_kg * 2.2)
+
+
+# So many NAs! Add a filter before mutate.
+
+surveys %&gt;% 
+  filter(!is.na(weight)) %&gt;% 
+  mutate(weight_kg = weight / 1000,
+         weight_lb = weight_kg * 2.2)
+
+
+# Convert year, month, and day to dates
+
+surveys %&gt;% 
+  select(year, month, day) %&gt;% 
+  mutate(date_str = paste(year, month, day, sep = &quot;-&quot;),
+         date = as.Date(date_str))</code></pre>
+<pre><code>4. Split-apply-combine with &quot;summarize&quot;
+
+#What’s the average weight of the observed animals by sex?
+
+surveys %&gt;% 
+  group_by(sex) %&gt;% 
+  summarize(mean_weight = mean(weight, na.rm = TRUE))
+
+
+#Group by multiple columns, e.g. sex and species.
+
+surveys %&gt;% 
+  group_by(species_id, sex) %&gt;% 
+  summarize(mean_weight = mean(weight, na.rm = TRUE))
+
+### Note ###__________________________________________________________
+
+Notice the warning message: our output is still grouped by species_id.
+By default, summarize() only removes one level of grouping.
+This usually leads to unexpected results.
+As the warning suggests, use .groups to drop all groups.
+
+______________________________________________________________________
+
+so,
+
+surveys %&gt;% 
+  group_by(species_id, sex) %&gt;% 
+  summarize(mean_weight = mean(weight, na.rm = TRUE),
+            .groups = &quot;drop&quot;)
+
+
+# NaN is the result of calling mean() on an empty vector. Let’s remove NAs before summarizing.
+
+surveys %&gt;% 
+  filter(!is.na(weight)) %&gt;% 
+  group_by(species_id, sex) %&gt;% 
+  summarize(mean_weight = mean(weight),
+            .groups = &quot;drop&quot;)
+
+
+# Can also generate multiple summaries per group.
+
+surveys %&gt;% 
+  filter(!is.na(weight)) %&gt;% 
+  group_by(species_id, sex) %&gt;% 
+  summarize(mean_weight = mean(weight),
+            min_weight = min(weight),
+            .groups = &quot;drop&quot;)</code></pre>
+<pre><code>5. Sort with &quot;arrange&quot;
+
+surveys %&gt;% 
+  filter(!is.na(weight)) %&gt;% 
+  group_by(species_id, sex) %&gt;% 
+  summarize(mean_weight = mean(weight),
+            min_weight = min(weight),
+            .groups = &quot;drop&quot;) %&gt;% 
+  arrange(desc(mean_weight))</code></pre>
+<pre><code>6. Joining data
+
+Joining columns: left_join(), inner_join()
+
+# Say we have more information about some of our taxa.
+
+count(surveys, taxa)
+taxa_iucn &lt;- data.frame(
+  taxa = c(&quot;Bird&quot;, &quot;Rabbit&quot;, &quot;Rodent&quot;),
+  iucn = c(&quot;NT&quot;, &quot;LC&quot;, &quot;LC&quot;)
+)
+taxa_iucn
+
+
+# Left join surveys with taxa info by their shared column (the “key”)
+
+surveys_iucn &lt;- left_join(surveys, taxa_iucn, by = &quot;taxa&quot;)
+head(surveys_iucn)</code></pre>
+<pre><code>Some Utility functions!
+
+# count() is a shortcut to getting the size of groups
+
+surveys %&gt;% 
+  count(sex, species) %&gt;% 
+  arrange(species, desc(n))
+
+
+# drop_na() is a shortcut for removing rows with missing values
+
+surveys %&gt;% 
+  drop_na(weight, sex) %&gt;% 
+  group_by(species_id, sex) %&gt;% 
+  summarize(mean_weight = mean(weight),
+            min_weight = min(weight),
+            .groups = &quot;drop&quot;) %&gt;% 
+  arrange(desc(mean_weight))</code></pre>
+<hr />
+</div>
+<div id="compthinking2" class="section level1">
+<h1>2023/10/23 compthinking2</h1>
+<p>Functions are “canned scripts” that automate more complicated sets of
+commands including operations assignments</p>
+<pre><code>mean &lt;- function(x) {
+  result &lt;- sum(x) / length(x)
+  return(result)
+}
+
+
+Function name = mean
+
+Keyword function = function
+
+Parameters = x
+
+Body = Everything in the {}
+
+
+
+first_last_chr &lt;- function(s) {
+  first_chr &lt;- substr(s, 1, 1)
+  last_chr &lt;- substr(s, nchar(s), nchar(s))
+  result &lt;- paste(first_chr, last_chr, sep = &quot;&quot;)
+  return(result)
+}
+text &lt;- &quot;Amazing!&quot;
+first_last_chr(text)
+
+
+Function name = first_last_chr
+
+Keyword function = function
+
+Parameters = s
+
+Body = Everything in the {}</code></pre>
+<hr />
+</div>
+<div id="troubleshooting" class="section level1">
+<h1>2023/10/30 Troubleshooting</h1>
+<pre><code>&lt; Debugging &gt;
+
+# 1. replex
+
+# minimum reproducible example, or a reprex for short. Distilling a bug into the smallest amount of data and code that produces the bug is the single most valuable skill for debugging!
+
+  # Key to minimizing code
+    1. Small and simple inputs
+    2. No extraneous packages
+    3. No unnecessary function calls
+
+
+install.packages(&quot;reprex&quot;)
+library(reprex)
+
+#{}...code chunk
+
+reprex({library(palmerpenguins)
+  body_condition &lt;- resid(lm(body_mass_g ~ flipper_length_mm, penguins))
+  summary(body_condition)
+})</code></pre>
+<pre><code># 2. browser function
+
+use &quot;blowser()&quot; to stop in the middle of an execution. </code></pre>
+</div>
 
 
 

@@ -5,6 +5,10 @@ ________________________________________________________________
 # R operaters
 
 ```
+< Assignment operator >
+<-    "Alt" + "-"
+```
+```
 < Arithmetic Operators >
 
 +     Addition
@@ -12,33 +16,33 @@ ________________________________________________________________
 *     Multiplication
 /     Division
 ^     Exponent
-%%      Modulus (Remainder from division)
-%/%     Integer Division
+%%    Modulus (Remainder from division)
+%/%   Integer Division
 ```
 ```
 < Comparison Operators >
 
-==      Equal	x == y	
-!=      Not equal	x != y	
+==    Equal	x == y	
+!=    Not equal	x != y	
 >     Greater than	x > y	
 <     Less than	x < y	
->=      Greater than or equal to	x >= y	
-<=      Less than or equal to	x <= y
+>=    Greater than or equal to	x >= y	
+<=    Less than or equal to	x <= y
 ```
 ```
 < Logical Operators >
 
 &     Element-wise Logical AND operator. It returns TRUE if both elements are TRUE
-&&      Logical AND operator - Returns TRUE if both statements are TRUE
+&&    Logical AND operator - Returns TRUE if both statements are TRUE
 |     Elementwise- Logical OR operator. It returns TRUE if one of the statement is TRUE
-||      Logical OR operator. It returns TRUE if one of the statement is TRUE.
+||    Logical OR operator. It returns TRUE if one of the statement is TRUE.
 !     Logical NOT - returns FALSE if statement is TRUE
 ```
 ```
 < Miscellaneous Operators >
 
-:     Creates a series of numbers in a sequence  	x <- 1:10
-%in%      Find out if an element belongs to a vector 	x %in% y
+:       Creates a series of numbers in a sequence  	x <- 1:10
+%in%    Find out if an element belongs to a vector 	x %in% y
 %*%     Matrix Multiplication	x <- Matrix1 %*% Matrix2
 
 ```
@@ -47,19 +51,17 @@ ________________________________________________________________
 # 2023/10/15 compthinking1
 
 ```
-<- ...assignment operator     "Alt" + "-"
-
-
-・Atomic vectors
-<- c() ...composed by series of values, which can be either number or characters, but they all have to be the same types (character, double, integer, logical)
-
-
-・list
-# can be different types
-# 貨物列車のようなもの、コンテナの中身は別々でも可
-
-
-
+< Atomic vectors >
+<- c() ...composed by series of values, which can be either number or characters,
+          but they all have to be the same types (character, double, integer, logical)
+```
+```
+< list >
+list()
+can be different types
+貨物列車のようなもの、コンテナの中身は別々でも可
+```
+```
 < Indexing >
 
 x <- c(a = 1, b = 2, c = 5)
@@ -81,9 +83,8 @@ breed <- c("pittie", "pittie", "shepherd", "lab", "lab")
 filenames == "bob"
 filenames[filenames == "bob"]
 breed[filenames == "bob"]
-
-
-
+```
+```
 < list subsetting>
 
 l <- list(a = 1:3,
@@ -112,9 +113,8 @@ on console to connect to GitHub
 < Data transformations with dplyr >
 
 library(tidyverse)
-
-_________________________________________________________________
-
+```
+```
 1. selecting columns and filtering rows
 
 # keeping columns
@@ -135,8 +135,6 @@ filter(surveys, year == 1995, plot_id == 7)
 filter(surveys, month == 2 | day == 20)
 ```
 ```
-_________________________________________________________________
-
 2. Pipes %>%  (Shift + Ctrl + M)
 
 surveys_psw <- surveys %>% 
@@ -152,8 +150,6 @@ surveys_1995 <- filter(surveys, year == 1995)
 surveys_psw <- select(surveys_1995, plot_id, species_id, weight)
 ```
 ```
-_________________________________________________________________
-
 3. Add/change columns with "mutate"
 
 # Add a column
@@ -185,8 +181,6 @@ surveys %>%
          date = as.Date(date_str))
 ```
 ```
-_________________________________________________________________
-
 4. Split-apply-combine with "summarize"
 
 #What’s the average weight of the observed animals by sex?
@@ -202,7 +196,7 @@ surveys %>%
   group_by(species_id, sex) %>% 
   summarize(mean_weight = mean(weight, na.rm = TRUE))
 
-### Note###___________________________________________________________
+### Note ###__________________________________________________________
 
 Notice the warning message: our output is still grouped by species_id.
 By default, summarize() only removes one level of grouping.
@@ -238,8 +232,6 @@ surveys %>%
             .groups = "drop")
 ```
 ```
-_________________________________________________________________
-
 5. Sort with "arrange"
 
 surveys %>% 
@@ -251,8 +243,6 @@ surveys %>%
   arrange(desc(mean_weight))
 ```
 ```
-_________________________________________________________________
-
 6. Joining data
 
 Joining columns: left_join(), inner_join()
@@ -273,8 +263,6 @@ surveys_iucn <- left_join(surveys, taxa_iucn, by = "taxa")
 head(surveys_iucn)
 ```
 ```
-_________________________________________________________________
-
 Some Utility functions!
 
 # count() is a shortcut to getting the size of groups
@@ -350,8 +338,8 @@ ________________________________________________________________
     1. Small and simple inputs
     2. No extraneous packages
     3. No unnecessary function calls
-```
-```
+
+
 install.packages("reprex")
 library(reprex)
 
