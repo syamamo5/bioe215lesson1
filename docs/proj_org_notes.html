@@ -665,7 +665,64 @@ reprex({library(palmerpenguins)
 })</code></pre>
 <pre><code># 2. browser function
 
-use &quot;blowser()&quot; to stop in the middle of an execution. </code></pre>
+use &quot;blowser()&quot; to stop in the middle of an execution. 
+usually inserted in the middle of &quot;function&quot;</code></pre>
+<hr />
+</div>
+<div id="visualizing-data-with-ggplot" class="section level1">
+<h1>2023/11/6 Visualizing data with ggplot()</h1>
+<pre><code>&lt; Components of ggplot() &gt;
+
+ggplot() has four major components:
+
+1. Data
+A data frame containing the data you want to visualize. Emphasis on data frame. ggplot() is not designed to work with individual vectors, which you might be used to if you’ve used base R, Matlab, or other plotting tools.
+
+2. Scales
+Scales determine where/how variables in your data will show up in the plot. These include the x- and y-axes, as well as color, size, and more.
+
+3. Geometries
+Geometries determine the geometric properties of your variables. E.g. scatter plots use a point geometry and line plots use a line geometry. Other familiar geometries include histograms and box plots.
+
+4. Aesthetics
+The aesthetics unify data, scales, and geometries. They tell ggplot() how to translate data to scales for each geometry.</code></pre>
+<pre><code>library(palmerpenguins)
+library(tidyverse)
+
+ggplot(data = penguins) +
+  # You can also define aesthetics directly inside the geometries
+  geom_point(aes(x = body_mass_g, 
+                 y = flipper_length_mm,
+                 color = species)) +
+  # x aesthetic, continuous scale
+  scale_x_continuous(
+    # change the axis name
+    name = &quot;Body mass (g)&quot;,
+    # change the limits
+    limits = c(2000, 8000)
+  ) +
+  # y aesthetic
+  scale_y_continuous(
+    # change the axis name
+    name = &quot;Flipper length (mm)&quot;,
+    # change the limits
+    limits = c(150, 250)
+  ) +
+  # color aesthetic, manual scale
+  scale_color_manual(
+    # set the values for the colors
+    values = c(Adelie = &quot;cornflowerblue&quot;,
+               Chinstrap = &quot;firebrick&quot;,
+               Gentoo = &quot;darkorchid&quot;)
+  )</code></pre>
+<pre><code>&lt; Other useful geometries &gt;
+
+geom_histogram()
+
+geom_boxplot()
+
+geom_pointrange()
+is like geom_point() with the addition of error bars. Like geom_point(), geom_pointrange() takes x and y aesthetics, but it also takes xmin, xmax, ymin and ymax aesthetics.</code></pre>
 </div>
 
 
