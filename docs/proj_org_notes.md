@@ -332,7 +332,9 @@ ________________________________________________________________
 
 # 1. replex
 
-# minimum reproducible example, or a reprex for short. Distilling a bug into the smallest amount of data and code that produces the bug is the single most valuable skill for debugging!
+# minimum reproducible example, or a reprex for short.
+  Distilling a bug into the smallest amount of data and code that
+  produces the bug is the single most valuable skill for debugging!
 
   # Key to minimizing code
     1. Small and simple inputs
@@ -366,16 +368,22 @@ ________________________________________________________________
 ggplot() has four major components:
 
 1. Data
-A data frame containing the data you want to visualize. Emphasis on data frame. ggplot() is not designed to work with individual vectors, which you might be used to if you’ve used base R, Matlab, or other plotting tools.
+A data frame containing the data you want to visualize. Emphasis on data frame.
+ggplot() is not designed to work with individual vectors, which you might be
+used to if you’ve used base R, Matlab, or other plotting tools.
 
 2. Scales
-Scales determine where/how variables in your data will show up in the plot. These include the x- and y-axes, as well as color, size, and more.
+Scales determine where/how variables in your data will show up in the plot.
+These include the x- and y-axes, as well as color, size, and more.
 
 3. Geometries
-Geometries determine the geometric properties of your variables. E.g. scatter plots use a point geometry and line plots use a line geometry. Other familiar geometries include histograms and box plots.
+Geometries determine the geometric properties of your variables.
+E.g. scatter plots use a point geometry and line plots use a line geometry.
+Other familiar geometries include histograms and box plots.
 
 4. Aesthetics
-The aesthetics unify data, scales, and geometries. They tell ggplot() how to translate data to scales for each geometry.
+The aesthetics unify data, scales, and geometries.
+They tell ggplot() how to translate data to scales for each geometry.
 ```
 ```
 library(palmerpenguins)
@@ -416,7 +424,9 @@ geom_histogram()
 geom_boxplot()
 
 geom_pointrange()
-is like geom_point() with the addition of error bars. Like geom_point(), geom_pointrange() takes x and y aesthetics, but it also takes xmin, xmax, ymin and ymax aesthetics.
+is like geom_point() with the addition of error bars.
+Like geom_point(), geom_pointrange() takes x and y aesthetics,
+but it also takes xmin, xmax, ymin and ymax aesthetics.
 ```
 
 
